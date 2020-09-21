@@ -1,3 +1,4 @@
+import { MessagesService } from './messages/messages.service';
 import {Component, OnInit} from '@angular/core';
 import { LoadingComponent } from './loading/loading.component';
 import { LoadingService } from './loading/loading.service';
@@ -9,7 +10,8 @@ import { LoadingService } from './loading/loading.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
     providers: [
-      LoadingService
+      LoadingService,
+      MessagesService
     ]
 })
 export class AppComponent implements  OnInit {
