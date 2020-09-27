@@ -4,6 +4,7 @@ import {Course} from '../model/course';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { Lesson } from 'app/model/lesson';
+import { sharedStylesheetJitUrl } from '@angular/compiler';
 
 
 @Injectable({
@@ -13,6 +14,26 @@ import { Lesson } from 'app/model/lesson';
 export class CoursesService {
 
   constructor(private http: HttpClient) { }
+
+  loadCourseById(courseId: number):Observable<Course>{
+   return this.http.get<Course>(`/api/courses/${courseId}`)
+    .pipe(shareReplay())
+  }
+
+  loadAllCourseLessons(courseId: number): Observable<Lesson[]>{
+    return this.http.get<Lesson[]>('/api/lessons',{
+      params:{
+        courseId: courseId.toString(),
+        pageSize:"10000"
+      }
+    })
+    .pipe(
+      map(
+        res => res['payload']
+      ),
+      shareReplay()
+    );
+  }
 
   loadAllCourses(): Observable<Course[]>{
     return this.http.get<Course[]>("/api/courses")
